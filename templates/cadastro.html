@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+</head>
+
+<body>
+    <main class="container">
+        <h1>Cadastro de Alunos</h1>
+
+        <form action="{% if aluno_edicao %}
+                {{ url_for('atualizar_aluno', id_aluno=aluno_edicao.IDALUNO) }}
+            {% else %}
+                {{ url_for('salvar_aluno') }}
+            {% endif %}" method="POST">
+
+            <div class="campo">
+                <label for="nome">Nome</label>
+
+                <input type="text" id="nome" name="nome" placeholder="Digite o nome" maxlength="30"
+                    value="{{ aluno_edicao.NOME if aluno_edicao else '' }}" required>
+            </div>
+
+            <div class="campo">
+                <label for="sexo">Sexo</label>
+
+                <select id="sexo" name="sexo" required>
+                    <option value="">Selecione</option>
+                    <option value="M" {% if aluno_edicao and aluno_edicao.SEXO=="M" %} selected {% endif %}>
+                        Masculino</option>
+                    <option value="F" {% if aluno_edicao and aluno_edicao.SEXO=="F" %} selected {% endif %}>
+                        Feminino</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="nascimento">Nascimento</label>
+
+                <input type="date" id="nascimento" name="nascimento"
+                    value="{{ aluno_edicao.NASCIMENTO if aluno_edicao else '' }}" required>
+            </div>
+
+            <div class="campo">
+                <label for="email">E-mail</label>
+
+                <input type="email" id="email" name="email" placeholder="Digite o e-mail" maxlength="30">
+            </div>
+
+            <button type="submit">
+                {% if aluno_edicao %}
+                Atualizar
+                {% else %}
+                Salvar
+                {% endif %}
+            </button>
+
+            <h2>Alunos cadastrados</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Sexo</th>
+                        <th>Nascimento</th>
+                        <th>E-mail</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for aluno in alunos %}
+                    <tr>
+                        <td>{{ aluno.IDALUNO }}</td>
+                        <td>{{ aluno.NOME }}</td>
+                        <td>{{ aluno.SEXO }}</td>
+                        <td>{{ aluno.NASCIMENTO }}</td>
+                        <td>{{ aluno.EMAIL or "" }}</td>
+
+                        <td>
+                            <a href="{{ url_for('editar_aluno', id_aluno=aluno.IDALUNO) }}">
+                                Editar
+                            </a>
+
+                        </td>
+
+        </form>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </main>
+</body>
+
+</html>
