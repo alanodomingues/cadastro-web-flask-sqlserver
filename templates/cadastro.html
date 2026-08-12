@@ -53,13 +53,14 @@
                 <input type="email" id="email" name="email" placeholder="Digite o e-mail" maxlength="30">
             </div>
 
-            <button type="submit">
+            <button class="btn" type="submit">
                 {% if aluno_edicao %}
                 Atualizar
                 {% else %}
                 Salvar
                 {% endif %}
             </button>
+
 
             <h2>Alunos cadastrados</h2>
 
@@ -89,6 +90,14 @@
                                 Editar
                             </a>
 
+
+                            <form class="form-excluir" action="{{url_for('excluir_aluno', id_aluno=aluno.IDALUNO)}}"
+                                method="POST">
+
+                                <button class="btn-excluir" type="submit">
+                                    Excluir
+                                </button>
+                            </form>
                         </td>
 
         </form>

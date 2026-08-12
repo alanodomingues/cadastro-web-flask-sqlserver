@@ -87,3 +87,17 @@ tr:hover {
 body {
     background-color: lightblue;
 }
+
+.form-excluir {
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.btn-salvar {
+    width: 100%;
+}
+
+.btn-excluir {
+    width: auto;
+    padding: 6px 10px;
+}
