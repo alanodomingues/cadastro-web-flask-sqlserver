@@ -43,20 +43,7 @@ input {
     font-size: 16px;
 }
 
-button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    background: #0067b8;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
 
-button:hover {
-    background: #004f8c;
-}
 
 h2 {
     margin-top: 40px;
@@ -95,9 +82,31 @@ body {
 
 .btn-salvar {
     width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background: #0067b8;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-salvar:hover {
+    background: #004f8c;
 }
 
 .btn-excluir {
     width: auto;
-    padding: 6px 10px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    background: #d32f2f;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+.btn-excluir:hover {
+    background: #b71c1c;
 }

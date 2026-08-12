@@ -53,7 +53,7 @@
                 <input type="email" id="email" name="email" placeholder="Digite o e-mail" maxlength="30">
             </div>
 
-            <button class="btn" type="submit">
+            <button class="btn-salvar" type="submit">
                 {% if aluno_edicao %}
                 Atualizar
                 {% else %}
@@ -94,7 +94,9 @@
                             <form class="form-excluir" action="{{url_for('excluir_aluno', id_aluno=aluno.IDALUNO)}}"
                                 method="POST">
 
-                                <button class="btn-excluir" type="submit">
+                                <button class="btn-excluir" type="submit"
+                                    onclick="return confirm('Tem certeza que deseja excluir este aluno: {{aluno.NOME}}?')">
+
                                     Excluir
                                 </button>
                             </form>
