@@ -28,6 +28,38 @@ def pagina_cadastro():
     conexao = conectar_banco()
     cursor = conexao.cursor()
 
+    # Dashboard
+
+    cursor.execute("SELECT COUNT(*) FROM ALUNO")
+    total_alunos = cursor.fetchone()[0]
+
+    cursor.execute(
+        """
+        SELECT COUNT(*)
+        FROM ALUNO
+        WHERE SEXO = 'M'
+        """
+    )
+    total_homens = cursor.fetchone()[0]
+
+    cursor.execute(
+        """
+        SELECT COUNT(*)
+        FROM ALUNO
+        WHERE SEXO = 'F'
+        """
+    )
+    total_mulheres = cursor.fetchone()[0]
+
+    cursor.execute(
+        """
+        SELECT AVG(DATEDIFF(YEAR, NASCIMENTO, GETDATE()))
+        FROM ALUNO
+        """
+    )
+    idade_media = int(cursor.fetchone()[0])
+
+
     if pesquisa:
 
         cursor.execute(
@@ -57,7 +89,11 @@ def pagina_cadastro():
     return render_template(
         "cadastro.html",
         alunos=alunos,
-        pesquisa=pesquisa
+        pesquisa=pesquisa,
+        total_alunos=total_alunos,
+        total_homens=total_homens,
+        total_mulheres=total_mulheres,
+        idade_media=idade_media
     )
 
 @app.route("/editar/<int:id_aluno>")

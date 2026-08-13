@@ -64,7 +64,32 @@
 
         </form>
 
+        <div class="dashboard">
+
+            <div class="card">
+                <h3>Total de alunos</h3>
+                <p>{{ total_alunos }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Homens</h3>
+                <p>{{ total_homens }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Mulheres</h3>
+                <p>{{ total_mulheres }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Idade média</h3>
+                <p>{{ idade_media }} anos</p>
+            </div>
+
+        </div>
+
         <h2>Alunos cadastrados</h2>
+
         {% include "listar_alunos.html" %}
 
 
