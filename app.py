@@ -9,6 +9,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
+app.secret_key = "123456"
 
 def conectar_banco():
     return pyodbc.connect(
@@ -19,19 +20,35 @@ def conectar_banco():
         "TrustServerCertificate=yes;"
     )
 
-
 @app.route("/")
 def pagina_cadastro():
+
+    pesquisa = request.args.get("pesquisa", "").strip()
+
     conexao = conectar_banco()
     cursor = conexao.cursor()
 
-    cursor.execute(
-        """
-        SELECT IDALUNO, NOME, SEXO, NASCIMENTO, EMAIL
-        FROM ALUNO
-        ORDER BY IDALUNO DESC
-        """
-    )
+    if pesquisa:
+
+        cursor.execute(
+            """
+            SELECT IDALUNO, NOME, SEXO, NASCIMENTO, EMAIL
+            FROM ALUNO
+            WHERE NOME LIKE ?
+            ORDER BY IDALUNO DESC
+            """,
+            f"%{pesquisa}%"
+        )
+
+    else:
+
+        cursor.execute(
+            """
+            SELECT IDALUNO, NOME, SEXO, NASCIMENTO, EMAIL
+            FROM ALUNO
+            ORDER BY IDALUNO DESC
+            """
+        )
 
     alunos = cursor.fetchall()
 
@@ -39,7 +56,8 @@ def pagina_cadastro():
 
     return render_template(
         "cadastro.html",
-        alunos=alunos
+        alunos=alunos,
+        pesquisa=pesquisa
     )
 
 @app.route("/editar/<int:id_aluno>")
@@ -154,6 +172,8 @@ def excluir_aluno(id_aluno):
     conexao.close()
 
     return redirect(url_for("pagina_cadastro"))
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

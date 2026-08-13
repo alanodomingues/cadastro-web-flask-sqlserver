@@ -1,0 +1,58 @@
+<form method="GET" action="{{ url_for('pagina_cadastro') }}">
+
+    <input type="text" name="pesquisa" placeholder="Pesquisar aluno" value="{{ pesquisa or '' }}">
+
+    <button type="submit">
+        Pesquisar
+    </button>
+
+</form>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Sexo</th>
+            <th>Nascimento</th>
+            <th>E-mail</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for aluno in alunos %}
+
+        <tr>
+            <td>{{ aluno.IDALUNO }}</td>
+            <td>{{ aluno.NOME }}</td>
+            <td>{{ aluno.SEXO }}</td>
+            <td>{{ aluno.NASCIMENTO }}</td>
+            <td>{{ aluno.EMAIL or "" }}</td>
+
+            <td>
+
+                <a href="{{ url_for('editar_aluno', id_aluno=aluno.IDALUNO) }}">
+                    Editar
+                </a>
+
+                <form class="form-excluir" action="{{ url_for('excluir_aluno', id_aluno=aluno.IDALUNO) }}"
+                    method="POST">
+
+                    <button class="btn-excluir" type="submit"
+                        onclick="return confirm('Tem certeza que deseja excluir este aluno: {{ aluno.NOME }}?')">
+                        Excluir
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
