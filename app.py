@@ -209,6 +209,34 @@ def excluir_aluno(id_aluno):
 
     return redirect(url_for("pagina_cadastro"))
 
+@app.route("/matriculas")
+def listar_matriculas():
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    cursor.execute(
+        """
+        SELECT
+            A.NOME AS ALUNO,
+            C.NOME AS CURSO
+        FROM ALUNO A
+        INNER JOIN MATRICULA M
+            ON A.IDALUNO = M.IDALUNO
+        INNER JOIN CURSO C
+            ON M.IDCURSO = C.IDCURSO
+        ORDER BY A.NOME
+        """
+    )
+
+    matriculas = cursor.fetchall()
+
+    conexao.close()
+
+    return render_template(
+        "matriculas.html",
+        matriculas=matriculas
+    )
 
 
 if __name__ == "__main__":

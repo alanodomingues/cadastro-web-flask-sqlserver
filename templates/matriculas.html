@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Matrículas</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+</head>
+
+<body>
+
+    <h2 class="titulo-matriculas">Matrículas</h2>
+
+    <table class="tabela-matriculas">
+
+        <thead>
+            <tr>
+                <th>Aluno</th>
+                <th>Curso</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for matricula in matriculas %}
+
+            <tr>
+                <td>{{ matricula.ALUNO }}</td>
+                <td>{{ matricula.CURSO }}</td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <a class="btn-voltar" href="{{ url_for('pagina_cadastro') }}">
+        Voltar para alunos
+    </a>
+
+</body>
+
+</html>

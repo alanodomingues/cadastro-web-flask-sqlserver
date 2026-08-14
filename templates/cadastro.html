@@ -11,8 +11,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
 </head>
 
+<nav>
+    <a href="{{ url_for('pagina_cadastro') }}">
+        Alunos
+    </a>
+
+    <a href="{{ url_for('listar_matriculas') }}">
+        Matrículas
+    </a>
+</nav>
+
 <body>
     <main class="container">
+
         <h1>Cadastro de Alunos</h1>
 
         <form action="{% if aluno_edicao %}
