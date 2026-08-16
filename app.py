@@ -273,6 +273,73 @@ def buscar_aluno(id_aluno):
         "email": aluno.EMAIL
     })
 
+@app.route("/api/alunos", methods=["GET"])
+def listar_alunos_api():
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    cursor.execute(
+        """
+        SELECT IDALUNO, NOME, SEXO, NASCIMENTO, EMAIL
+        FROM ALUNO
+        ORDER BY IDALUNO DESC
+        """
+    )
+
+    alunos = cursor.fetchall()
+
+    conexao.close()
+
+    lista_alunos = []
+
+    for aluno in alunos:
+        lista_alunos.append({
+            "id": aluno.IDALUNO,
+            "nome": aluno.NOME,
+            "sexo": aluno.SEXO,
+            "nascimento": aluno.NASCIMENTO.strftime("%Y-%m-%d"),
+            "email": aluno.EMAIL
+        })
+
+    return jsonify(lista_alunos)
+
+@app.route("/api/alunos", methods=["POST"])
+def cadastrar_aluno_api():
+
+    dados = request.get_json()
+
+    nome = dados.get("nome", "").strip()
+    sexo = dados.get("sexo", "").strip()
+    nascimento = dados.get("nascimento", "").strip()
+    email = dados.get("email", "").strip()
+
+    if not nome or not sexo or not nascimento:
+        return jsonify({
+            "erro": "Nome, sexo e nascimento são obrigatórios"
+        }), 400
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    cursor.execute(
+        """
+        INSERT INTO ALUNO (NOME, SEXO, NASCIMENTO, EMAIL)
+        VALUES (?, ?, ?, ?)
+        """,
+        nome,
+        sexo,
+        nascimento,
+        email or None
+    )
+
+    conexao.commit()
+    conexao.close()
+
+    return jsonify({
+        "mensagem": "Aluno cadastrado com sucesso"
+    }), 201
+
 
 if __name__ == "__main__":
     app.run(debug=True)
