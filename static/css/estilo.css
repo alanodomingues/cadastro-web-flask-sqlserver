@@ -149,5 +149,29 @@ nav a {
 }
 
 .titulo-matriculas {
-    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.tabela-matriculas {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.tabela-matriculas th {
+    padding: 12px;
+    text-align: left;
+}
+
+.tabela-matriculas td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.btn-voltar {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 16px;
+    text-decoration: none;
+    border-radius: 5px;
 }

@@ -2,12 +2,14 @@ import os
 
 import pyodbc
 from dotenv import load_dotenv
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, url_for, jsonify
 
 
 load_dotenv()
 
 app = Flask(__name__)
+
+app.json.ensure_ascii = False
 
 app.secret_key = "123456"
 
@@ -237,6 +239,39 @@ def listar_matriculas():
         "matriculas.html",
         matriculas=matriculas
     )
+
+
+@app.route("/api/alunos/<int:id_aluno>", methods=["GET"])
+def buscar_aluno(id_aluno):
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    cursor.execute(
+        """
+        SELECT IDALUNO, NOME, SEXO, NASCIMENTO, EMAIL
+        FROM ALUNO
+        WHERE IDALUNO = ?
+        """,
+        id_aluno
+    )
+
+    aluno = cursor.fetchone()
+
+    conexao.close()
+
+    if aluno is None:
+        return jsonify({
+            "erro": "Aluno não encontrado"
+        }), 404
+
+    return jsonify({
+        "id": aluno.IDALUNO,
+        "nome": aluno.NOME,
+        "sexo": aluno.SEXO,
+        "nascimento": aluno.NASCIMENTO.strftime("%Y-%m-%d"),
+        "email": aluno.EMAIL
+    })
 
 
 if __name__ == "__main__":
